@@ -1,9 +1,12 @@
 package driver
 
 import (
+	"fmt"
+	"image"
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/antchfx/xmlquery"
 )
@@ -26,8 +29,12 @@ type Bounds struct {
 	RBY int // Right-Bottom Y coordinate
 }
 
-// Document returns the UI structure document of current screen
-// Returns nil if unable to get UI dump or parse XML
+// Document retrieves and parses the UI hierarchy of the current screen.
+// It executes a UI dump command and parses the resulting XML.
+//
+// Returns:
+//   - *documenter: The parsed UI document structure
+//   - nil: If unable to get UI dump or parse the XML
 func (d *driver) Document() *documenter {
 	xml, err := d.Dump()
 	if err != nil {
@@ -239,4 +246,30 @@ func (d *documenter) Swipe(direction Direction) {
 	bounds := d.GetBounds()
 
 	d.d.SwipeInRange(bounds, direction, 40, 0.8)
+}
+
+// Input enters text into the element by simulating keyboard input
+// Parameters:
+//   - text: the text string to input
+func (d *documenter) Input(text string) {
+	d.d.Input(d.x, d.y, text)
+}
+
+// Screenshot captures and crops a screenshot of the current element.
+// It takes a full device screenshot, crops it to the element's bounds,
+// saves the cropped image to a temporary file, and returns the cropped image.
+//
+// Returns:
+//   - image.Image: The cropped screenshot of the element
+func (d *documenter) Screenshot() image.Image {
+	bounds := d.GetBounds()
+
+	img := d.d.Screenshot()
+
+	cropImage := CropImage(img, image.Rect(bounds.LTX, bounds.LTY, bounds.RBX, bounds.RBY))
+
+	tempfile := fmt.Sprintf("%s/%v.png", ROOT_PATH, time.Now().UnixMilli())
+	d.d.SaveImage(cropImage, tempfile)
+
+	return cropImage
 }

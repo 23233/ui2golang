@@ -7,7 +7,10 @@ import (
 	"strings"
 )
 
-// Retrieves device information and returns it as a JSON string
+// Info retrieves device information and returns it as a JSON string.
+// The information includes device model, brand, Android version, screen size, etc.
+// Returns:
+//   - string: JSON formatted device information
 func (d *driver) Info() string {
 	if d.deviceInfo != "" {
 		return d.deviceInfo
@@ -46,19 +49,25 @@ func (d *driver) Info() string {
 	return d.deviceInfo
 }
 
-// Retrieves memory information of the device
+// MemoryInfo retrieves memory information of the device.
+// Returns:
+//   - string: Raw memory information output from dumpsys meminfo
 func (d *driver) MemoryInfo() string {
 	output, _ := d.Run("dumpsys", "meminfo")
 	return output
 }
 
-// Retrieves storage information of the device
+// StorageInfo retrieves storage usage information of the device's SD card.
+// Returns:
+//   - string: Storage usage percentage of /sdcard partition
 func (d *driver) StorageInfo() string {
 	output, _ := d.Run("df", "/sdcard", "|", "grep", "'/dev'", "|", "awk", "'{print $5}'")
 	return output
 }
 
-// Retrieves the IP address of the device
+// GetIP retrieves the IP address of the device's WLAN interface.
+// Returns:
+//   - string: IP address if found, "localhost" if not found, "unknown" on error
 func (d *driver) GetIP() string {
 	output, err := d.Run("ip", "-4", "addr", "show", "wlan0")
 	if err != nil {
@@ -75,7 +84,11 @@ func (d *driver) GetIP() string {
 	return "localhost"
 }
 
-// Retrieves the IMEI of the device
+// GetIMEI retrieves the IMEI (International Mobile Equipment Identity) of the device.
+// The method varies based on Android version - uses getprop for Android 12+ and
+// service call for earlier versions.
+// Returns:
+//   - string: Device IMEI if found, empty string if not found
 func (d *driver) GetIMEI() string {
 	version, _ := d.Run("getprop", "ro.build.version.release")
 	v, _ := strconv.Atoi(strings.TrimSpace(version))
@@ -108,7 +121,10 @@ func (d *driver) GetIMEI() string {
 	return strings.TrimSpace(imei)
 }
 
-// Retrieves the screen resolution of the device
+// GetResolution retrieves the screen resolution of the device.
+// Returns:
+//   - int: Screen width in pixels
+//   - int: Screen height in pixels
 func (d *driver) GetResolution() (int, int) {
 	screen_size, _ := d.Run("wm", "size")
 	screen_size = strings.TrimSpace(strings.Split(screen_size, ":")[1])
