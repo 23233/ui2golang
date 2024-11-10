@@ -6,7 +6,7 @@
 
 项目参考于[openatx/uiautomator2](https://github.com/openatx/uiautomator2)，项目中的dump方式实际就是借用了大佬的[u2.jar](https://public.uiauto.devsleep.com/u2jar)，输入法是从[senzhk/ADBKeyBoard](https://github.com/senzhk/ADBKeyBoard)修改的，这里将本项目使用到的库和项目列出，若有遗漏，请联系我，我会第一时间补上并致以歉意。
 
-- [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/antchfx/xmlquery.svg?label=xmlquery)](https://github.com/antchfx/xmlquery/releases)
+- [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/beevik/etree.svg?label=etree)](https://github.com/beevik/etree/releases)
 - [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/sevlyar/go-daemon.svg?label=go-daemon)](https://github.com/sevlyar/go-daemon/releases)
 
 向大佬致敬。
@@ -35,7 +35,7 @@
 
 > [!NOTE]
 >
-> 首次的话会自动安装输入法star-ime，如果弹出安装提示，请选择允许。
+> 首次的话会自动安装输入法[star-ime](https://github.com/shi-yunsheng/star-ime)，如果弹出安装提示，请选择允许。
 
 ## 快速开始
 ```shell

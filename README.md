@@ -6,7 +6,7 @@ Android automation development using Go, so you need to learn some Go syntax bef
 
 This project references [openatx/uiautomator2](https://github.com/openatx/uiautomator2). The dump method actually uses [u2.jar](https://public.uiauto.devsleep.com/u2jar) from the original project, and the input method is modified from [senzhk/ADBKeyBoard](https://github.com/senzhk/ADBKeyBoard). Here I list the libraries and projects used in this project. If there are any omissions, please contact me, and I will add them immediately with apologies.
 
-- [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/antchfx/xmlquery.svg?label=xmlquery)](https://github.com/antchfx/xmlquery/releases)
+- [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/beevik/etree.svg?label=etree)](https://github.com/beevik/etree/releases)
 - [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/sevlyar/go-daemon.svg?label=go-daemon)](https://github.com/sevlyar/go-daemon/releases)
 
 Respect to the developers.
@@ -49,9 +49,9 @@ import "github.com/shi-yunsheng/driver"
 func main() {
     d := driver.New()
     
-    d.Connect("192.168.10.128") // 通过adb devices查看设备的序列号或设备IP
+    d.Connect("192.168.10.128") // Check device serial number or IP via adb devices
 
-	d.StartApp("com.ss.android.ugc.aweme") // 启动抖音
+	d.StartApp("com.ss.android.ugc.aweme") // Launch Douyin
 
 	searchBtn, _ := d.WaitElement(driver.By{Selector: driver.ContentDesc, Value: "搜索"})
 	if searchBtn != nil {
@@ -59,7 +59,7 @@ func main() {
 	}
 
 	dy := "ismeSYS"
-	msg := "哈喽，老石"
+	msg := "Hello, Lao Shi"
 
 	search, _ := d.WaitElement(driver.By{Selector: driver.ResourceID, Value: "com.ss.android.ugc.aweme:id/et_search_kw"})
 	if search != nil {
