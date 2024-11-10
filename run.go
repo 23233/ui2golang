@@ -39,6 +39,7 @@ func (d *driver) Run(cmd string, args ...string) (string, error) {
 			argv = append(argv, []string{"adb", "-s", d.device, "shell", newArgs}...)
 		}
 	} else {
+		cmd = strings.Join(append([]string{cmd}, args...), " ")
 		argv = append(argv, "-c", cmd)
 	}
 
@@ -49,5 +50,5 @@ func (d *driver) Run(cmd string, args ...string) (string, error) {
 		return string(output), err
 	}
 
-	return string(output), nil
+	return strings.TrimSpace(string(output)), nil
 }

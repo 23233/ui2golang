@@ -69,3 +69,15 @@ func (d *driver) VolumeDown() bool {
 func (d *driver) Power() bool {
 	return d.KeyEvent(KEYCODE_POWER)
 }
+
+// Reboot simulates a device reboot command
+// This will restart the entire device
+func (d *driver) Reboot() {
+	d.Run("reboot")
+}
+
+// PowerOff simulates powering off the device
+// This will shut down the entire device
+func (d *driver) PowerOff() {
+	d.Run("poweroff")
+}

@@ -6,8 +6,11 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"math/rand"
 	"net"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -102,4 +105,88 @@ func Request(opt *Requester) (map[string]any, error) {
 	}
 
 	return nil, errors.New(resp.Status)
+}
+
+// DownloadFile downloads a file from the specified URL and saves it to the given path.
+// For non-Android systems, it first downloads to a temporary location and then pushes to device.
+// Parameters:
+//   - url: The URL of the file to download
+//   - filepath: The destination path where the file should be saved
+//
+// Returns:
+//   - error: nil if successful, otherwise contains error details
+func (d *driver) DownloadFile(url string, filepath string) error {
+	filepathParts := strings.Split(filepath, "/")
+	filepath = strings.Join(filepathParts[:len(filepathParts)-1], "/")
+	originalFilepath := filepath
+	filename := filepathParts[len(filepathParts)-1]
+
+	if d.os != "android" {
+		filepath = TEMP_PATH + filepath
+	}
+
+	if !DirExists(filepath) {
+		CreateDir(filepath)
+	}
+
+	out, err := os.Create(filepath + "/" + filename)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	client := &http.Client{
+		Transport: transport,
+	}
+
+	res, err := client.Get(url)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return ErrDownloadFailed
+	}
+
+	_, err = io.Copy(out, res.Body)
+	if err != nil {
+		return err
+	}
+
+	if d.os != "android" {
+		if !d.FileExists(originalFilepath) {
+			d.CreateDir(originalFilepath)
+		}
+		_, err = d.Run("push", filepath+"/"+filename, originalFilepath)
+		d.DeleteFile(filepath + "/" + filename)
+	}
+
+	return err
+}
+
+// GetRandomIntInRange returns a random integer between the specified min and max values (inclusive).
+// Parameters:
+//   - min: The minimum value of the range.
+//   - max: The maximum value of the range.
+//
+// Returns:
+//   - A random integer between min (inclusive) and max (exclusive).
+func GetRandomIntInRange(min, max int) int {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	return r.Intn(max-min) + min
+}
+
+// GetRandomFloatInRange returns a random floating-point number between the specified min and max values (inclusive).
+// Parameters:
+//   - min: The minimum value of the range.
+//   - max: The maximum value of the range.
+//
+// Returns:
+//   - A random float32 between min (inclusive) and max (exclusive).
+func GetRandomFloatInRange(min, max float32) float32 {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	return r.Float32()*(max-min) + min
 }

@@ -11,7 +11,7 @@ func (d *driver) getCurrentKeyboard() string {
 //   - ime: The input method to switch to
 // Returns:
 //   - bool: true if the switch was successful, false otherwise
-func (d *driver) SwitchKeyBoard(ime string) bool {
+func (d *driver) switchKeyboard(ime string) bool {
 	_, err := d.Run("ime", "set", ime)
 	return err == nil
 }
@@ -20,12 +20,12 @@ func (d *driver) SwitchKeyBoard(ime string) bool {
 // Returns:
 //   - bool: true if the switch was successful, false otherwise
 func (d *driver) SwitchAdbKeyboard() bool {
-	return d.SwitchKeyBoard(d.defaultADBKeyboard)
+	return d.switchKeyboard(ADB_KEYBOARD)
 }
 
 // SwitchDefaultKeyboard switches the keyboard input method to the default keyboard
 // Returns:
 //   - bool: true if the switch was successful, false otherwise
 func (d *driver) SwitchDefaultKeyboard() bool {
-	return d.SwitchKeyBoard(d.defaultKeyboard)
+	return d.switchKeyboard(d.defaultKeyboard)
 }

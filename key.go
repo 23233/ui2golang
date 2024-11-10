@@ -1,6 +1,7 @@
 package driver
 
 type KeyCode int
+type EditorAction int
 
 const (
 	KEYCODE_UNKNOWN                       KeyCode = iota
@@ -308,4 +309,15 @@ const (
 	KEYCODE_DEMO_APP_2                            = 302
 	KEYCODE_DEMO_APP_3                            = 303
 	KEYCODE_DEMO_APP_4                            = 304
+)
+
+const (
+	IME_ACTION_UNSPECIFIED EditorAction = iota
+	IME_ACTION_NONE
+	IME_ACTION_GO
+	IME_ACTION_SEARCH
+	IME_ACTION_SEND
+	IME_ACTION_NEXT
+	IME_ACTION_DONE
+	IME_ACTION_PREVIOUS
 )

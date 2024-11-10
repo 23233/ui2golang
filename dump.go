@@ -1,14 +1,17 @@
 package driver
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Dump retrieves the current UI view hierarchy from the device
 // Returns:
 //   - string: XML representation of the UI hierarchy
 //   - error: nil if successful, otherwise error details
-func (d *driver) Dump() (string, error) {
-	if running, _ := d.CheckUiAutomator(); !running {
-		d.StartUiAutomator()
+func (d *driver) dump() (string, error) {
+	if running, _ := d.checkUiAutomator(); !running {
+		d.startUiAutomator()
 	}
 
 	ip := d.GetIP()
@@ -29,5 +32,5 @@ func (d *driver) Dump() (string, error) {
 		return "", err
 	}
 
-	return res["result"].(string), nil
+	return strings.TrimSpace((res["result"].(string))), nil
 }

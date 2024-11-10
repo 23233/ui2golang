@@ -1,6 +1,8 @@
 package driver
 
 import (
+	"bytes"
+	"encoding/base64"
 	"image"
 	"image/draw"
 	_ "image/jpeg"
@@ -40,6 +42,21 @@ func LoadImage(path string) (image.Image, error) {
 
 	img, _, err := image.Decode(file)
 	return img, err
+}
+
+// Image2Base64 converts an image to a base64 encoded string.
+// Parameters:
+//   - img: The image to convert
+//
+// Returns:
+//   - The base64 encoded string and any error encountered
+func Image2Base64(img image.Image) (string, error) {
+	buf := new(bytes.Buffer)
+	err := png.Encode(buf, img)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
 }
 
 // SaveImage saves an image to the specified file path in PNG format.
@@ -121,4 +138,15 @@ func (d *driver) Screenshot() image.Image {
 	img, _ := d.LoadImage(IMAGE_PATH)
 
 	return img
+}
+
+// ScreenshotBase64 captures the current screen and returns it as a base64 encoded string.
+// It first takes a screenshot using Screenshot() and then converts it to base64 format.
+//
+// Returns:
+//   - string: The base64 encoded screenshot image
+//   - error: Any error that occurred during the process
+func (d *driver) ScreenshotBase64() (string, error) {
+	img := d.Screenshot()
+	return Image2Base64(img)
 }

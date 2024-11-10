@@ -4,12 +4,11 @@ import "runtime"
 
 // driver represents the core structure for Android UI automation
 type driver struct {
-	os                 string // Operating system name
-	shell              string // Shell type (powershell/bash/sh)
-	device             string // Connected device ID
-	defaultKeyboard    string // Default keyboard on device
-	defaultADBKeyboard string // ADB keyboard package name
-	deviceInfo         string // Device information string
+	os              string // Operating system name
+	shell           string // Shell type (powershell/bash/sh)
+	device          string // Connected device ID
+	defaultKeyboard string // Default keyboard on device
+	deviceInfo      string // Device information string
 }
 
 // New creates and initializes a new driver instance
@@ -17,8 +16,7 @@ type driver struct {
 //   - *driver: Configured driver object ready for automation
 func New() *driver {
 	var d = &driver{
-		os:                 runtime.GOOS,
-		defaultADBKeyboard: "com.android.starime/.StarIME",
+		os: runtime.GOOS,
 	}
 
 	// Set shell based on operating system

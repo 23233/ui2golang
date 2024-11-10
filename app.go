@@ -1,12 +1,29 @@
 package driver
 
-import "strings"
+import (
+	"strings"
+	"time"
+)
 
 // StartApp launches an Android application using its package name
 // Parameters:
 //   - app: full package name of the application (e.g. "com.example.app/.MainActivity")
-func (d *driver) StartApp(app string) {
-	d.Run("am", "start", "-n", app)
+//
+// Returns:
+//   - bool: true if app successfully started within timeout, false otherwise
+func (d *driver) StartApp(app string) bool {
+	d.StopApp(app)
+
+	activity := d.getMainActivity(app)
+	d.Run("am", "start", "-n", activity)
+
+	for i := 0; i < WAIT_TIMEOUT; i++ {
+		if d.isRunning(app) {
+			return true
+		}
+		time.Sleep(time.Second)
+	}
+	return false
 }
 
 // StopApp forcefully stops a running Android application
@@ -20,7 +37,8 @@ func (d *driver) StopApp(app string) {
 // Parameters:
 //   - app: full package name of the application to restart
 func (d *driver) RestartApp(app string) {
-	d.Run("am", "start", "-S", "-n", app)
+	d.StopApp(app)
+	d.StartApp(app)
 }
 
 // InstallApp installs an APK file on the Android device
@@ -35,16 +53,37 @@ func (d *driver) InstallApp(app string, isDel bool) {
 	}
 }
 
+// UninstallApp uninstalls an installed Android application
+// Parameters:
+//   - app: package name of the application to uninstall
+func (d *driver) UninstallApp(app string) {
+	d.Run("pm", "uninstall", app)
+}
+
 // IsRunning checks if an application is currently running in the foreground
 // Parameters:
 //   - app: package name of the application to check
+//
 // Returns:
 //   - bool: true if the app is running, false otherwise
-func (d *driver) IsRunning(app string) bool {
+func (d *driver) isRunning(app string) bool {
 	output, err := d.Run("dumpsys", "window", "|", "grep", "-E", "'mCurrentFocus'")
 	if err != nil {
 		return false
 	}
 
 	return strings.Contains(output, app)
+}
+
+// getMainActivity returns the main activity of an Android application
+// Parameters:
+//   - app: full package name of the application (e.g. "com.example.app/.MainActivity")
+//
+// Returns:
+//   - string: main activity of the application
+func (d *driver) getMainActivity(app string) string {
+	output, _ := d.Run("cmd", "package", "resolve-activity", "--brief", app)
+	activity := strings.Split(output, "\n")[1]
+
+	return activity
 }

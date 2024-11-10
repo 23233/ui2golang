@@ -6,7 +6,7 @@ import (
 )
 
 // Check if the UiAutomator server is running
-func (d *driver) CheckUiAutomator() (bool, string) {
+func (d *driver) checkUiAutomator() (bool, string) {
 	output, _ := d.Run("netstat", "-anp", "2>/dev/null")
 
 	scanner := bufio.NewScanner(strings.NewReader(output))
@@ -26,14 +26,14 @@ func (d *driver) CheckUiAutomator() (bool, string) {
 }
 
 // Stop the UiAutomator server if it is running
-func (d *driver) StopUiAutomator() {
-	if running, pid := d.CheckUiAutomator(); running {
+func (d *driver) stopUiAutomator() {
+	if running, pid := d.checkUiAutomator(); running {
 		d.Run("kill", pid)
 	}
 }
 
 // Start the UiAutomator server
-func (d *driver) StartUiAutomator() {
-	d.StopUiAutomator()
-	go d.Run("CLASSPATH="+ROOT_PATH+"/u2.jar", "app_process", "/", "com.wetest.uia2.Main")
+func (d *driver) startUiAutomator() {
+	d.stopUiAutomator()
+	go d.Run("CLASSPATH="+U2_PATH, "app_process", "/", "com.wetest.uia2.Main")
 }
