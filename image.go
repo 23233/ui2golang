@@ -150,3 +150,8 @@ func (d *driver) ScreenshotBase64() (string, error) {
 	img := d.Screenshot()
 	return Image2Base64(img)
 }
+
+// TODO: Implement FindImage
+func FindImage(sourceImage image.Image, targetImage image.Image) (*Bounds, error) {
+	return &Bounds{}, nil
+}
