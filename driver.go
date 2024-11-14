@@ -2,8 +2,8 @@ package driver
 
 import "runtime"
 
-// driver represents the core structure for Android UI automation
-type driver struct {
+// Driver represents the core structure for Android UI automation
+type Driver struct {
 	os              string // Operating system name
 	shell           string // Shell type (powershell/bash/sh)
 	device          string // Connected device ID
@@ -13,9 +13,9 @@ type driver struct {
 
 // New creates and initializes a new driver instance
 // Returns:
-//   - *driver: Configured driver object ready for automation
-func New() *driver {
-	var d = &driver{
+//   - *Driver: Configured driver object ready for automation
+func New() *Driver {
+	var d = &Driver{
 		os: runtime.GOOS,
 	}
 

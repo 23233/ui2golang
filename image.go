@@ -66,7 +66,7 @@ func Image2Base64(img image.Image) (string, error) {
 //
 // Returns:
 //   - Any error encountered during saving
-func (d *driver) SaveImage(img image.Image, path string) error {
+func (d *Driver) SaveImage(img image.Image, path string) error {
 	if d.os != "android" {
 		if path[0] != '/' {
 			path = "/" + path
@@ -102,7 +102,7 @@ func (d *driver) SaveImage(img image.Image, path string) error {
 //
 // Returns:
 //   - The loaded image and any error encountered
-func (d *driver) LoadImage(path string) (image.Image, error) {
+func (d *Driver) LoadImage(path string) (image.Image, error) {
 	if d.os != "android" {
 		if path[0] != '/' {
 			path = "/" + path
@@ -127,7 +127,7 @@ func (d *driver) LoadImage(path string) (image.Image, error) {
 //
 // Returns:
 //   - The captured screenshot as an image
-func (d *driver) Screenshot() image.Image {
+func (d *Driver) Screenshot() image.Image {
 	if d.FileExists(IMAGE_PATH) {
 		d.DeleteFile(IMAGE_PATH)
 		DeleteAll(IMAGE_PATH)
@@ -146,7 +146,7 @@ func (d *driver) Screenshot() image.Image {
 // Returns:
 //   - string: The base64 encoded screenshot image
 //   - error: Any error that occurred during the process
-func (d *driver) ScreenshotBase64() (string, error) {
+func (d *Driver) ScreenshotBase64() (string, error) {
 	img := d.Screenshot()
 	return Image2Base64(img)
 }

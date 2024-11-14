@@ -9,7 +9,7 @@ import (
 // Returns:
 //   - An integer representing the battery level (0-100)
 //   - If the battery level cannot be retrieved, it returns 0
-func (d *driver) Battery() int {
+func (d *Driver) Battery() int {
 	output, _ := d.Run("dumpsys", "battery", "|", "grep", "level")
 
 	// Regular expression to match the battery level (number)
@@ -30,7 +30,7 @@ func (d *driver) Battery() int {
 
 // StopCharging disables all charging sources (AC, USB, Wireless)
 // This will prevent the device from charging
-func (d *driver) StopCharging() {
+func (d *Driver) StopCharging() {
 	d.Run("dumpsys", "battery", "set", "ac", "0")
 	d.Run("dumpsys", "battery", "set", "usb", "0")
 	d.Run("dumpsys", "battery", "set", "wireless", "0")
@@ -38,6 +38,6 @@ func (d *driver) StopCharging() {
 
 // StartCharging resets the battery system, enabling charging again
 // This restores all charging sources and allows the device to charge
-func (d *driver) StartCharging() {
+func (d *Driver) StartCharging() {
 	d.Run("dumpsys", "battery", "reset")
 }

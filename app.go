@@ -11,7 +11,7 @@ import (
 //
 // Returns:
 //   - bool: true if app successfully started within timeout, false otherwise
-func (d *driver) StartApp(app string) bool {
+func (d *Driver) StartApp(app string) bool {
 	d.StopApp(app)
 
 	activity := d.getMainActivity(app)
@@ -29,14 +29,14 @@ func (d *driver) StartApp(app string) bool {
 // StopApp forcefully stops a running Android application
 // Parameters:
 //   - app: package name of the application to stop
-func (d *driver) StopApp(app string) {
+func (d *Driver) StopApp(app string) {
 	d.Run("am", "force-stop", app)
 }
 
 // RestartApp restarts an Android application by stopping and starting it
 // Parameters:
 //   - app: full package name of the application to restart
-func (d *driver) RestartApp(app string) {
+func (d *Driver) RestartApp(app string) {
 	d.StopApp(app)
 	d.StartApp(app)
 }
@@ -45,7 +45,7 @@ func (d *driver) RestartApp(app string) {
 // Parameters:
 //   - app: path to the APK file to install
 //   - isDel: whether to delete the APK file after installation
-func (d *driver) InstallApp(app string, isDel bool) {
+func (d *Driver) InstallApp(app string, isDel bool) {
 	d.Run("pm", "install", app)
 
 	if isDel {
@@ -56,7 +56,7 @@ func (d *driver) InstallApp(app string, isDel bool) {
 // UninstallApp uninstalls an installed Android application
 // Parameters:
 //   - app: package name of the application to uninstall
-func (d *driver) UninstallApp(app string) {
+func (d *Driver) UninstallApp(app string) {
 	d.Run("pm", "uninstall", app)
 }
 
@@ -66,7 +66,7 @@ func (d *driver) UninstallApp(app string) {
 //
 // Returns:
 //   - bool: true if the app is running, false otherwise
-func (d *driver) isRunning(app string) bool {
+func (d *Driver) isRunning(app string) bool {
 	output, err := d.Run("dumpsys", "window", "|", "grep", "-E", "'mCurrentFocus'")
 	if err != nil {
 		return false
@@ -81,7 +81,7 @@ func (d *driver) isRunning(app string) bool {
 //
 // Returns:
 //   - string: main activity of the application
-func (d *driver) getMainActivity(app string) string {
+func (d *Driver) getMainActivity(app string) string {
 	output, _ := d.Run("cmd", "package", "resolve-activity", "--brief", app)
 	activity := strings.Split(output, "\n")[1]
 

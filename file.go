@@ -7,7 +7,7 @@ import "os"
 //   - path: Path to check
 // Returns:
 //   - bool: true if file exists, false otherwise
-func (d *driver) FileExists(path string) bool {
+func (d *Driver) FileExists(path string) bool {
 	output, err := d.Run("test", "-e", path)
 	return err == nil && output == ""
 }
@@ -17,7 +17,7 @@ func (d *driver) FileExists(path string) bool {
 //   - path: Path to check
 // Returns:
 //   - bool: true if directory exists, false otherwise
-func (d *driver) DirExists(path string) bool {
+func (d *Driver) DirExists(path string) bool {
 	output, err := d.Run("test", "-d", path)
 	return err == nil && output == ""
 }
@@ -27,7 +27,7 @@ func (d *driver) DirExists(path string) bool {
 //   - path: Path where to create directory
 // Returns:
 //   - bool: true if successful, false otherwise
-func (d *driver) CreateDir(path string) bool {
+func (d *Driver) CreateDir(path string) bool {
 	_, err := d.Run("mkdir", "-p", path)
 	return err == nil
 }
@@ -38,7 +38,7 @@ func (d *driver) CreateDir(path string) bool {
 //   - path: Path where to create file
 // Returns:
 //   - bool: true if successful, false otherwise
-func (d *driver) CreateFile(text, path string) bool {
+func (d *Driver) CreateFile(text, path string) bool {
 	_, err := d.Run("echo", text, ">", path)
 	return err == nil
 }
@@ -48,7 +48,7 @@ func (d *driver) CreateFile(text, path string) bool {
 //   - path: Path to delete
 // Returns:
 //   - bool: true if successful, false otherwise
-func (d *driver) DeleteFile(path string) bool {
+func (d *Driver) DeleteFile(path string) bool {
 	_, err := d.Run("rm", "-rf", path)
 	return err == nil
 }
@@ -59,7 +59,7 @@ func (d *driver) DeleteFile(path string) bool {
 // Returns:
 //   - string: Content of the file
 //   - error: nil if successful, otherwise error details
-func (d *driver) ReadFile(path string) (string, error) {
+func (d *Driver) ReadFile(path string) (string, error) {
 	text, err := d.Run("cat", path)
 	if err != nil {
 		return "", err
@@ -73,7 +73,7 @@ func (d *driver) ReadFile(path string) (string, error) {
 //   - dest: Destination path of file to copy
 // Returns:
 //   - bool: true if successful, false otherwise
-func (d *driver) CopyFile(src, dest string) bool {
+func (d *Driver) CopyFile(src, dest string) bool {
 	_, err := d.Run("cp", src, dest)
 	return err == nil
 }
@@ -84,7 +84,7 @@ func (d *driver) CopyFile(src, dest string) bool {
 //   - dest: Destination path of file to move
 // Returns:
 //   - bool: true if successful, false otherwise
-func (d *driver) MoveFile(src, dest string) bool {
+func (d *Driver) MoveFile(src, dest string) bool {
 	_, err := d.Run("mv", src, dest)
 	return err == nil
 }

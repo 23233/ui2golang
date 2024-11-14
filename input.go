@@ -5,7 +5,7 @@ package driver
 //   - x: The x-coordinate to tap
 //   - y: The y-coordinate to tap
 //   - text: The text to input
-func (d *driver) Input(x, y int, text string) {
+func (d *Driver) Input(x, y int, text string) {
 	d.Tap(x, y)
 	d.Clear(x, y)
 	d.Run("am", "broadcast", "-a", "STAR_INPUT_TEXT", "--es", "text", text)
@@ -16,6 +16,6 @@ func (d *driver) Input(x, y int, text string) {
 // Parameters:
 //   - x: The x-coordinate to clear
 //   - y: The y-coordinate to clear
-func (d *driver) Clear(x, y int) {
+func (d *Driver) Clear(x, y int) {
 	d.Run("am", "broadcast", "-a", "STAR_CLEAR_TEXT")
 }

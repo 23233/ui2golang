@@ -27,7 +27,7 @@ var pcOnlyCommands = map[string]string{
 // Returns:
 //   - string: The output of the command.
 //   - error: An error object if the command execution fails.
-func (d *driver) Run(cmd string, args ...string) (string, error) {
+func (d *Driver) Run(cmd string, args ...string) (string, error) {
 	var argv []string
 
 	if d.os != "android" {

@@ -9,7 +9,7 @@ import "strings"
 //  - Storing current keyboard as default
 //  - Switching to ADB keyboard
 //  - Creating temp directory if needed
-func (d *driver) initialize() {
+func (d *Driver) initialize() {
 	if !d.FileExists(U2_PATH) {
 		d.DownloadFile(U2_URL, U2_PATH)
 	}
@@ -35,7 +35,7 @@ func (d *driver) initialize() {
 // Cleanup performs cleanup after the driver:
 //  - Stopping UiAutomator service
 //  - Restoring default keyboard
-func (d *driver) Cleanup() {
+func (d *Driver) Cleanup() {
 	d.stopUiAutomator()
 
 	d.SwitchDefaultKeyboard()

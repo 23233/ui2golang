@@ -15,7 +15,7 @@ import (
 //   - ErrMultipleDevices if multiple devices are connected
 //   - ErrDeviceOffline if the device is offline
 //   - Other errors from adb command execution
-func (d *driver) Connect(device string) error {
+func (d *Driver) Connect(device string) error {
 	if d.os == "android" {
 		d.device = ""
 		return nil

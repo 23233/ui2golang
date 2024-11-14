@@ -242,7 +242,7 @@ func (d *document) ByEndsWithResourceID(resourceID string) *element {
 // Returns:
 //   - *element: The found UI element, or nil if not found within timeout
 //   - error: ErrSelectorEmpty if selector is empty, ErrElementNotFound if element not found
-func (d *driver) WaitElement(by By) (*element, error) {
+func (d *Driver) WaitElement(by By) (*element, error) {
 	if by.Timeout == 0 {
 		by.Timeout = WAIT_TIMEOUT
 	}

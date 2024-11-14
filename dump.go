@@ -9,7 +9,7 @@ import (
 // Returns:
 //   - string: XML representation of the UI hierarchy
 //   - error: nil if successful, otherwise error details
-func (d *driver) dump() (string, error) {
+func (d *Driver) dump() (string, error) {
 	if running, _ := d.checkUiAutomator(); !running {
 		d.startUiAutomator()
 	}

@@ -11,7 +11,7 @@ import (
 // The information includes device model, brand, Android version, screen size, etc.
 // Returns:
 //   - string: JSON formatted device information
-func (d *driver) Info() string {
+func (d *Driver) Info() string {
 	if d.deviceInfo != "" {
 		return d.deviceInfo
 	}
@@ -52,7 +52,7 @@ func (d *driver) Info() string {
 // MemoryInfo retrieves memory information of the device.
 // Returns:
 //   - string: Raw memory information output from dumpsys meminfo
-func (d *driver) MemoryInfo() string {
+func (d *Driver) MemoryInfo() string {
 	output, _ := d.Run("dumpsys", "meminfo")
 	return output
 }
@@ -60,7 +60,7 @@ func (d *driver) MemoryInfo() string {
 // StorageInfo retrieves storage usage information of the device's SD card.
 // Returns:
 //   - string: Storage usage percentage of /sdcard partition
-func (d *driver) StorageInfo() string {
+func (d *Driver) StorageInfo() string {
 	output, _ := d.Run("df", "/sdcard", "|", "grep", "'/dev'", "|", "awk", "'{print $5}'")
 	return output
 }
@@ -68,7 +68,7 @@ func (d *driver) StorageInfo() string {
 // GetIP retrieves the IP address of the device's WLAN interface.
 // Returns:
 //   - string: IP address if found, "localhost" if not found, "unknown" on error
-func (d *driver) GetIP() string {
+func (d *Driver) GetIP() string {
 	output, err := d.Run("ip", "-4", "addr", "show", "wlan0")
 	if err != nil {
 		return "unknown"
@@ -89,7 +89,7 @@ func (d *driver) GetIP() string {
 // service call for earlier versions.
 // Returns:
 //   - string: Device IMEI if found, empty string if not found
-func (d *driver) GetIMEI() string {
+func (d *Driver) GetIMEI() string {
 	version, _ := d.Run("getprop", "ro.build.version.release")
 	v, _ := strconv.Atoi(strings.TrimSpace(version))
 
@@ -125,7 +125,7 @@ func (d *driver) GetIMEI() string {
 // Returns:
 //   - int: Screen width in pixels
 //   - int: Screen height in pixels
-func (d *driver) GetResolution() (int, int) {
+func (d *Driver) GetResolution() (int, int) {
 	screen_size, _ := d.Run("wm", "size")
 	screen_size = strings.TrimSpace(strings.Split(screen_size, ":")[1])
 	temp := strings.Split(screen_size, "x")

@@ -16,7 +16,7 @@ const (
 // Swipe performs a swipe gesture across the entire screen
 // Parameters:
 //   - direction: swipe direction, one of SWIPE_UP/SWIPE_DOWN/SWIPE_LEFT/SWIPE_RIGHT
-func (d *driver) Swipe(direction Direction) {
+func (d *Driver) Swipe(direction Direction) {
 	w, h := d.GetResolution()
 	bounds := &Bounds{
 		LTX: 0,
@@ -33,7 +33,7 @@ func (d *driver) Swipe(direction Direction) {
 //   - direction: swipe direction, one of SWIPE_UP/SWIPE_DOWN/SWIPE_LEFT/SWIPE_RIGHT
 //   - duration: swipe duration in milliseconds, 0 means using default value 40ms
 //   - ratio: swipe distance ratio relative to boundary length, range [0,1]
-func (d *driver) swipeInRange(bounds *Bounds, direction Direction, duration int, ratio float64) {
+func (d *Driver) swipeInRange(bounds *Bounds, direction Direction, duration int, ratio float64) {
 	if duration == 0 {
 		duration = 40 // Default duration if not specified
 	}

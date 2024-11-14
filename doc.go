@@ -12,7 +12,7 @@ import (
 
 // document represents the document structure in Android UI hierarchy
 type document struct {
-	d       *driver        // driver instance
+	d       *Driver        // driver instance
 	RawXML  string         // raw XML string
 	root    *etree.Element // root XML node
 	element *etree.Element // currently selected XML node
@@ -32,7 +32,7 @@ type Bounds struct {
 // Returns:
 //   - *document: The parsed UI document structure
 //   - nil: If unable to get UI dump or parse the XML
-func (d *driver) Document() *document {
+func (d *Driver) Document() *document {
 	xml, err := d.dump()
 	if err != nil {
 		return nil

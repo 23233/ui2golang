@@ -115,7 +115,7 @@ func Request(opt *Requester) (map[string]any, error) {
 //
 // Returns:
 //   - error: nil if successful, otherwise contains error details
-func (d *driver) DownloadFile(url string, filepath string) error {
+func (d *Driver) DownloadFile(url string, filepath string) error {
 	filepathParts := strings.Split(filepath, "/")
 	filepath = strings.Join(filepathParts[:len(filepathParts)-1], "/")
 	originalFilepath := filepath

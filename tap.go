@@ -6,7 +6,7 @@ import "strconv"
 // Parameters:
 //   - x: The x-coordinate to tap.
 //   - y: The y-coordinate to tap.
-func (d *driver) Tap(x, y int) {
+func (d *Driver) Tap(x, y int) {
 	px := strconv.Itoa(x)
 	py := strconv.Itoa(y)
 	d.Run("input", "tap", px, py)
@@ -16,7 +16,7 @@ func (d *driver) Tap(x, y int) {
 // Parameters:
 //   - x: The x-coordinate to long tap.
 //   - y: The y-coordinate to long tap.
-func (d *driver) LongTap(x, y int) {
+func (d *Driver) LongTap(x, y int) {
 	px := strconv.Itoa(x)
 	py := strconv.Itoa(y)
 	d.Run("input", "swipe", px, py, px, py, "800")
